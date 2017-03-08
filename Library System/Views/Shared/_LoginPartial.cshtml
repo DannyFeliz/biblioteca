@@ -1,0 +1,57 @@
+﻿@{
+    if (Request.Cookies["userEmail"].Value != "null")
+    {
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("Hello " + Request.Cookies["userEmail"].Value + "!", "Login", "User", routeValues: null, htmlAttributes: new {title = "Account"})
+            </li>
+            <li><a href="#" id="logout">Cerrar Sesión</a></li>
+        </ul>
+
+    }
+    else
+    {
+        <ul class="nav navbar-nav navbar-right">
+            <li>@Html.ActionLink("Register", "Register", "User", routeValues: null, htmlAttributes: new {id = "registerLink"})</li>
+            <li>@Html.ActionLink("Log in", "Login", "User", routeValues: null, htmlAttributes: new {id = "loginLink"})</li>
+        </ul>
+    }
+}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        jQuery("#logout").on("click", function () {
+
+            swal({
+                title: "Cerrar sesión",
+                text: "Estás seguro que deseas cerrar sessión?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Si",
+                closeOnConfirm: true
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    jQuery.cookie("userEmail", null, { path: '/' });
+                    jQuery.cookie("userId", null, { path: '/' });
+                    jQuery.cookie("isLoggledIn", null, { path: '/' });
+                    swal("Información!", "Has cerrado sesión exitosamente", "success");
+//                    setTimeout(function() {
+                        window.location = "/";
+//                    }, 3000)
+                } else {
+//                    swal("Cancelled", "Your imaginary file is safe :)", "error");
+                }
+            });
+
+
+
+
+
+           
+        });
+    })
+
+</script>
